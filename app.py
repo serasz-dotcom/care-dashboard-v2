@@ -205,7 +205,7 @@ with st.sidebar:
                 if search_emp and search_emp.lower() not in name.lower():
                     continue
                 is_active = selected_user == name
-                label = f"{'● ' if is_active else '○ '}{name}"
+                label = f"👤 {name}"
                 if st.button(label, key=f"emp_{name}", use_container_width=True):
                     st.session_state["selected_user"] = name
                     st.session_state["current_action"] = None
@@ -308,22 +308,11 @@ if final_df is not None and '내용' in final_df.columns:
 st.markdown("<div style='height:8px'></div>", unsafe_allow_html=True)
 
 # ── 탭 ──
-with st.container(border=True):
-    t1, t2, t3 = st.columns(3)
-    active_tab = st.session_state["active_tab"]
-    tabs = [("면담일지", t1), ("AI 분석", t2), ("면담 입력", t3)]
-    for tab_name, col in tabs:
-        with col:
-            is_active = active_tab == tab_name
-            st.markdown(f'<div class="{"tab-active tab-btn" if is_active else "tab-btn"}" style="text-align:center; padding:6px; border-radius:8px; font-size:13px; font-weight:{"600" if is_active else "400"}; color:{"#0369a1" if is_active else "#64748b"}; background:{"#e0f2fe" if is_active else "transparent"}; border: 1px solid {"#bae6fd" if is_active else "#e2e8f0"}; cursor:pointer;">{tab_name}</div>', unsafe_allow_html=True)
-            if st.button(tab_name, key=f"tab_{tab_name}", use_container_width=True):
-                st.session_state["active_tab"] = tab_name
-                st.rerun()
+tab1, tab2, tab3 = st.tabs(["📋 면담일지", "🤖 AI 분석", "✏️ 면담 입력"])
 
-    st.markdown("<hr style='margin:8px 0 14px; border-color:#f1f5f9;'>", unsafe_allow_html=True)
-
-    # ── 면담일지 탭 ──
-    if active_tab == "면담일지":
+with tab1:
+    active_tab = "면담일지"
+    if True:
         col_s, col_f = st.columns([3, 1])
         with col_s:
             search_q = st.text_input("", placeholder="🔍 키워드 검색 (예: 위생, 불안...)", label_visibility="collapsed", key="log_search")
@@ -366,8 +355,9 @@ with st.container(border=True):
         else:
             st.warning("데이터를 불러올 수 없습니다.")
 
-    # ── AI 분석 탭 ──
-    elif active_tab == "AI 분석":
+with tab2:
+    active_tab = "AI 분석"
+    if True:
         st.markdown("<p style='color:#0369a1; font-weight:600; font-size:13px; margin-bottom:8px;'>📱 근무 및 평가 관리</p>", unsafe_allow_html=True)
         c1,c2,c3,c4,c5 = st.columns(5)
         for col, key, lbl in [(c1,"move_spot","📍 근무지\n이동"),(c2,"attendance","⏰ 근태\n관리"),(c3,"monthly","📅 월면담"),(c4,"review","📊 근무\n리뷰"),(c5,"growth","📈 업무\n발전")]:
@@ -482,8 +472,9 @@ with st.container(border=True):
                                 except Exception as e:
                                     st.error(f"오류: {e}")
 
-    # ── 면담 입력 탭 ──
-    elif active_tab == "면담 입력":
+with tab3:
+    active_tab = "면담 입력"
+    if True:
         st.markdown(f"**✏️ {selected_user} 크루 면담 내용 입력**")
         c1, c2 = st.columns(2)
         with c1:
